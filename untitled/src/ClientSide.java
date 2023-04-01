@@ -7,14 +7,21 @@ public class ClientSide {
         try {
             Socket client = new Socket("localhost", 3947);
             BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
-            System.out.println("Send a message to the server: ");
-            String input = userInput.readLine();
+            BufferedReader messageReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
             PrintWriter out = new PrintWriter(client.getOutputStream(), true);
-            out.println(input);
+            System.out.println("Send messages to the server: ");
 
-            BufferedReader get = new BufferedReader(new InputStreamReader(client.getInputStream()));
-            String answer = get.readLine();
-            System.out.println(answer);
+            while (true)
+            {
+                String input = userInput.readLine();
+                if (input.compareTo("EXIT") == 0)
+                {
+                    break;
+                }
+                out.println(input);
+                String answer = messageReader.readLine();
+                System.out.println(answer);
+            }
             client.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
