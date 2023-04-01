@@ -9,24 +9,38 @@ public class ServerSide {
     public static void main(String[] args) {
         System.out.println("Starting server...");
         try {
+            // Open ServerSocket on the port 3947
             ServerSocket serverSocket = new ServerSocket(3947);
+
+            // Waiting fot the client to koin
             Socket server = serverSocket.accept();
             System.out.println("Connection established!");
-            BufferedReader get = new BufferedReader(new InputStreamReader(server.getInputStream()));
+
+            // Reader for getting messages from the socket stream
+            BufferedReader messageReader = new BufferedReader(new InputStreamReader(server.getInputStream()));
+
+            // Reader for typing messages from the keyboard
             BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
+
+            // Writer to print messages to the connected client
             PrintWriter out = new PrintWriter(server.getOutputStream(), true);
-            System.out.println("Send a message to the client: ");
-            while(true)
-            {
-                String input = userInput.readLine();
-                if (input.compareTo("EXIT") == 0)
-                {
-                    break;
-                }
-                out.println(input);
-                String answer = get.readLine();
-                System.out.println(answer);
-            }
+            System.out.println("Send messages to the client: ");
+
+            // TODO Make the separate thread which will listen for the messages
+
+//            while(true)
+//            {
+//                String input = userInput.readLine();
+//                if (input.compareTo("EXIT") == 0)
+//                {
+//                    break;
+//                }
+//                out.println(input);
+//                String answer = messageReader.readLine();
+//                System.out.println(answer);
+//            }
+
+            // Close the sockets after the end of the work
             server.close();
             serverSocket.close();
         } catch (IOException e) {
