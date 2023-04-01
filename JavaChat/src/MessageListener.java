@@ -11,6 +11,7 @@ public class MessageListener implements Runnable{
     @Override
     public void run() {
         try {
+            // Constant listening for the messages
             while(true)
             {
                 String answer = messageReader.readLine();

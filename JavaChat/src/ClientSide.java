@@ -1,11 +1,12 @@
 import java.io.*;
+import java.net.ConnectException;
 import java.net.Socket;
 
 public class ClientSide {
     public static void main(String[] args) {
         System.out.println("Client started!");
         try {
-            // Open client socket in the same port as the server
+            // Open client socket on the same port as the server
             Socket client = new Socket("localhost", 3947);
 
             // Reader for typing messages from the keyboard
@@ -18,13 +19,13 @@ public class ClientSide {
             PrintWriter out = new PrintWriter(client.getOutputStream(), true);
             System.out.println("Send messages to the server: ");
 
-            // TODO Make the separate thread which will listen for the messages
-
+            // The thread which listens for messages in real time
             MessageListener listener = new MessageListener(messageReader);
             Thread listenThread = new Thread(listener);
             listenThread.setDaemon(true);
             listenThread.start();
 
+            // Constant user input
             while(true)
             {
                 String input = userInput.readLine();
@@ -38,6 +39,7 @@ public class ClientSide {
             // Close the socket after the end of the work
             client.close();
         } catch (IOException e) {
+            System.out.println("No server to connect to!");
             throw new RuntimeException(e);
         }
     }

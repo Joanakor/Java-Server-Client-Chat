@@ -26,13 +26,14 @@ public class ServerSide {
             PrintWriter out = new PrintWriter(server.getOutputStream(), true);
             System.out.println("Send messages to the client: ");
 
-            // TODO Make the separate thread which will listen for the messages
+            // The thread which listens for the messages
 
             MessageListener listener = new MessageListener(messageReader);
             Thread listenThread = new Thread(listener);
             listenThread.setDaemon(true);
             listenThread.start();
 
+            // Constant user input
             while(true)
             {
                 String input = userInput.readLine();
