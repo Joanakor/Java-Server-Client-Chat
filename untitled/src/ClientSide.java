@@ -20,17 +20,20 @@ public class ClientSide {
 
             // TODO Make the separate thread which will listen for the messages
 
-//            while (true)
-//            {
-//                String input = userInput.readLine();
-//                if (input.compareTo("EXIT") == 0)
-//                {
-//                    break;
-//                }
-//                out.println(input);
-//                String answer = messageReader.readLine();
-//                System.out.println(answer);
-//            }
+            MessageListener listener = new MessageListener(messageReader);
+            Thread listenThread = new Thread(listener);
+            listenThread.setDaemon(true);
+            listenThread.start();
+
+            while(true)
+            {
+                String input = userInput.readLine();
+                if (input.compareTo("EXIT") == 0)
+                {
+                    break;
+                }
+                out.println(input);
+            }
 
             // Close the socket after the end of the work
             client.close();

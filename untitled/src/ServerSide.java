@@ -28,17 +28,20 @@ public class ServerSide {
 
             // TODO Make the separate thread which will listen for the messages
 
-//            while(true)
-//            {
-//                String input = userInput.readLine();
-//                if (input.compareTo("EXIT") == 0)
-//                {
-//                    break;
-//                }
-//                out.println(input);
-//                String answer = messageReader.readLine();
-//                System.out.println(answer);
-//            }
+            MessageListener listener = new MessageListener(messageReader);
+            Thread listenThread = new Thread(listener);
+            listenThread.setDaemon(true);
+            listenThread.start();
+
+            while(true)
+            {
+                String input = userInput.readLine();
+                if (input.compareTo("EXIT") == 0)
+                {
+                    break;
+                }
+                out.println(input);
+            }
 
             // Close the sockets after the end of the work
             server.close();
